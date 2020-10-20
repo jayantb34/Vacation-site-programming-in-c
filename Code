@@ -1,0 +1,540 @@
+
+#include <stdio.h>
+#include <windows.h>
+#include <stdlib.h>
+int GetFontSize(HANDLE windowHandle, COORD *size)
+    {
+    CONSOLE_FONT_INFOEX font = { sizeof(CONSOLE_FONT_INFOEX) };
+ 
+    if (!GetCurrentConsoleFontEx(windowHandle, 0, &font))
+        {
+        return 0;
+        }
+ 
+    *size = font.dwFontSize;
+ 
+    return 1;
+    }
+ 
+int SetFontSize(HANDLE windowHandle, COORD size)
+    {
+    CONSOLE_FONT_INFOEX font = { sizeof(CONSOLE_FONT_INFOEX) };
+ 
+    if (!GetCurrentConsoleFontEx(windowHandle, 0, &font))
+        {
+        return 0;
+        }
+ 
+    font.dwFontSize = size;
+ 
+    if (!SetCurrentConsoleFontEx(windowHandle, 0, &font))
+        {
+        return 0;
+        }
+ 
+    return 1;
+    }
+ 
+void days(int,int,int,int,int,int,int,int);
+void setcolor(int color);
+int month(int,int);
+int mon[12]={31,28,31,30,31,30,31,31,30,31,30,31};
+int ticketing(int a,int total,int count,int m1);
+int stayHotel(int total,int count,int m1);
+int main()
+{
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD size;
+ 
+    if (GetFontSize(h, &size))
+        {
+        /* Grow by 50% */
+        size.X += (SHORT)(size.X * .5);
+        size.Y += (SHORT)(size.Y * .5);
+        SetFontSize(h, size);
+        }
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+    WORD saved_attributes;
+    GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
+    saved_attributes = consoleInfo.wAttributes;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+int a1,b1,c1,a2,b2,c2,color;
+char str;
+printf("                                                    SIZZLING PARADISE\n\n");
+SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
+printf("                                                People do not take trips,\n                                                    trips take people.\n");
+int a,ad,total=0;
+SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+printf("        ENTER YOUR NAME:        ");
+SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
+scanf("%[^\n]s",&str);
+SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+printf("        ENTER THE TOTAL NUMBER OF MEMBERS:- ");
+SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
+scanf("        %d",&a);
+SetConsoleTextAttribute(hConsole, BACKGROUND_GREEN);
+printf("%d\n",a);
+SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN| FOREGROUND_RED | FOREGROUND_INTENSITY);
+printf("        NUMBER OF ADULTS:- ");
+SetConsoleTextAttribute(hConsole,  FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
+scanf("        %d",&ad);
+SetConsoleTextAttribute(hConsole, BACKGROUND_GREEN);
+printf("%d\n",ad);
+int dd,mm,yy;
+     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+    printf("        Check In Date(DD/MM/YYYY format): ");
+    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
+  scanf("%d%d%d",&a1,&b1,&c1);
+  SetConsoleTextAttribute(hConsole, BACKGROUND_GREEN);
+  printf("%d %d %d\n",a1,b1,c1);
+  SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+    printf("        Check Out Date(DD/MM/YYYY format): ");
+        SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
+   scanf("%d%d%d",&a2,&b2,&c2);
+     SetConsoleTextAttribute(hConsole, BACKGROUND_GREEN);
+    printf("%d %d %d\n",a2,b2,c2);
+     if(c2>=c1)
+  days(c1,c2,b1,b2,a1,a2,a,total);
+  else
+  days(c2,c1,b2,b1,a2,a1,a,total);
+  
+  }
+
+ void days(int y1,int y2,int m1,int m2,int d1,int d2,int a,int total)
+  {
+  int count=0,i;
+  for(i=y1;i<y2;i++)
+    {
+    if(i%4==0)
+    count+=366;
+    else
+    count+=365;
+    }
+  count-=month(m1,y1);
+  count-=d1;
+  count+=month(m2,y2);
+  count+=d2;
+  if(count<0)
+  count=count*-1;
+  
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+    WORD saved_attributes;
+    GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
+    saved_attributes = consoleInfo.wAttributes;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+  SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+  printf("        DAYS=%d",count);
+  ticketing(a,total,count,m1);
+  }
+
+ int month(int a,int yy)
+  {
+  int x=0,c;
+  for(c=0;c<a-1;c++)
+    {
+   if(c==1)
+      {
+      if(yy%4==0)
+      x+=29;
+      else
+      x+=28;
+      }
+    else
+    x+=mon[c];
+    }
+  return(x);
+  
+    
+
+}
+
+
+int ticketing(int a,int total,int count,int m1)
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+    WORD saved_attributes;
+    GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
+    saved_attributes = consoleInfo.wAttributes;
+    int place,d,ab,n,c,total1=0,t,u;
+    n=a;
+     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+    printf("\n        WHERE FROM?\n");
+    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
+    printf("        CHANDIGARH\n\n");
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+    printf("        WHERE TO?\n");
+        SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
+    printf("        1.JAIPUR\n");
+     printf("        2.MUMBAI\n");
+      printf("        3.AGRA\n");
+       printf("        4.GOA\n");
+        printf("        5.MANALI\n");
+         printf("        6.SHIMLA\n");
+          printf("        7.CHENNAI\n");
+           printf("        8.PARIS\n");
+            printf("        9.BUDAPEST\n");
+             printf("        10.LONDON\n");
+              printf("        11.MALDIVES\n");
+               printf("        12.HAWAII\n");
+               printf("        13.AMRITSAR       \n\n");
+                  SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
+               scanf("                     %d",&place);
+               SetConsoleTextAttribute(hConsole, BACKGROUND_GREEN);
+               printf("%d\n",place);
+                switch(place)
+                {
+                    case 1: 
+                    d=516;
+                    break;
+                    
+                     case 2: 
+                    d=1653;
+                    break;
+                    
+                     case 3: 
+                    d=483;
+                    break;
+                    
+                     case 4: 
+                    d=2125;
+                    break;
+                    
+                     case 5: 
+                    d=293;
+                    break;
+                    
+                     case 6: 
+                    d=112;
+                    break;
+                    
+                     case 7: 
+                    d=2459;
+                    break;
+                
+                     case 8: 
+                d=6394;
+                    break;
+                    
+                     case 9: 
+                    d=5181;
+                    break;
+                    
+                     case 10: 
+                    d=6511;
+                    break;
+                    
+                     case 11: 
+                    d=3082;
+                    break;
+                    
+                     case 12: 
+                    d=12073;
+                    break;
+                    
+                    case 13:
+                        d=225;
+                        break;
+                }
+                if(d<500)
+                {
+                    printf("\n        RAIL \n");
+                    ab=0;
+                }
+                else
+                {
+                printf("\n        AIR ");
+                ab=1;
+            }
+                if(d>500 && ab==1)
+                {
+                	if(place==1 || place==2|| place==4 || place==7)
+                	{
+                	printf("(National Carrier)\n");
+                	c=0;
+                }
+                	else if(place==8 || place==9 || place==10 || place==11 || place==12)
+                	{
+                	printf("(International Carrier)\n");
+                	c=1;
+                }
+				}
+			if(place==3 || place==5 || place==6 || place==13)
+			{
+		
+		t=d*2;
+		total1=n*t;
+	}
+	if(place==1 || place==2)
+	{
+		t=5000;
+		total1=n*t;
+	}
+		if(place==4 || place==7)
+	{
+		t=6000;
+		total1=n*t;
+	}
+	if(place==8 || place==10)
+	{
+		t=30000;
+		total1=t*n;
+	}
+	if(place==9)
+	{
+		t=50000;
+		total1=t*n;
+	}
+	if(place==11)
+	{
+		t=20000;
+		total1=t*n;
+	}
+	if(place==12)
+	{
+		t=80000;
+		total1=t*n;
+	}
+	total=total+total1;
+	int total3=0;
+if(ab==0)
+{
+total3=a*100*2;	
+   SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+printf("        LOCAL TRAVEL CHARGES:%d\n",total3);
+ u=total3;
+}
+
+if(ab==1)
+{
+	total3=a*200*2;
+	SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+	printf("        LOCAL TRAVEL CHARGES:%d\n",total3);
+	u=total3;
+}
+total=total+total3;
+
+char ch;
+int total2=0;
+   SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+printf("\n        Enter YES(Y or y) or NO(N or n) To Add some more fun to your trip      \n");
+   SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
+scanf("                           %c",&ch);
+SetConsoleTextAttribute(hConsole,BACKGROUND_GREEN);
+printf("%c\n",ch);
+
+if(ch == 'N' || ch == 'n')
+{
+printf("        OK! THANK YOU!!!\n");
+}
+if(ch == 'Y' || ch == 'y')
+{
+switch(place)
+{
+case 1:
+{
+	total2+=3000*a;
+printf("                       -camping\n");
+printf("                       -elephant safari\n");
+printf("                       -camel riding\n");
+        break;
+}
+case 2:
+{
+	total2+=3000*a;
+printf("                       -cycling under the moonlight\n");
+printf("                       -feel the sound beach camping\n");
+printf("                       -GO FOR A RUN AT MARINE DRIVE");
+break;
+}
+case 3:
+{
+	total2+=3000*a;
+printf("                       -balloon safari\n");
+printf("                       -light and sound show at kalakriti cultural and convention center\n");
+printf("                       -TAJ MAHAL\n");
+break;
+}
+case 4:
+{
+		total2+=3000*a;
+printf("                       -Agonda Beach.\n");
+printf("                       -Chapora Fort\n");
+printf("                       -Baga Beach.\n");
+break;
+}
+case 5:
+{
+	total2+=3000*a;
+printf("                       -spend time in rahala waterfall\n");
+printf("                       -River Rafting\n");
+printf("                       -Skiing\n");
+break;
+}
+case 6:
+{
+	total2+=3000*a;
+printf("                       -trekkling\n");
+printf("                       -Watching the sunset at Scandal Point.\n");
+printf("                       -Rafting at Tattapani.\n");
+break;
+}
+           
+            case 7:
+            {
+            	total2+=3000*a;
+            printf("                       -Marina Beach.");
+            printf("                       -Pulicat Lake");
+            printf("                       -Breezy Beach");
+        
+            break;
+}
+case 8:
+{
+	total2+=10000*a;
+printf("                       -Le Ballon de Paris\n ");
+printf("                       -Helicopter ride\n");
+printf("                       -Boat at La Villette\n");
+break;
+                                }
+                                case 9:
+                                {
+                                	total2+=10000*a;
+                    
+                                printf("                       -Walk Across the Chain Bridge.\n ");
+                                printf("                       -Fisherman's Bastion Viewpoint.\n");
+                                printf("                       -Cruise the Danube River\n");
+                            
+                                break;
+}
+case 10:
+{
+	total2+=10000*a;
+printf("                       -Clay Shooting on the Thames\n");
+printf("                       -Pay a visit to the O2.\n");
+printf("                       -Oxford Street, Piccadilly Circus and Leicester Square.\n");
+break;
+}
+case 11:
+{
+	total2+=10000*a;
+printf("                       -Snorkelling and diving.\n");
+printf("                       -Collecting Crabs & Crab Racing\n");
+printf("                       -Dolphin Cruises.\n");
+break;
+}
+case 12:
+{
+	total2+=10000*a;
+printf("                       -Snorkel with Sharks\n");
+printf("                       -Sunrise Lava Tour.\n ");
+printf("                       -Molokini Express, Adventure Snorkeling\n");
+break;
+}
+case 13:
+{
+	total2+=3000*a;
+printf("                       -Golden Temple. \n");
+printf("                       -Wagah Border.\n ");
+printf("                       -Hall Bazaar.\n");
+break;
+}
+}
+}
+total=total+total2;
+stayHotel(total,count,m1);
+}
+
+int stayHotel(int total,int count,int m1)
+{
+	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD size;
+ 
+    if (GetFontSize(h, &size))
+        {
+        /* Grow by 50% */
+        size.X += (SHORT)(size.X * .5);
+        size.Y += (SHORT)(size.Y * .5);
+        SetFontSize(h, size);
+        }
+	
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+    WORD saved_attributes;
+    GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
+    saved_attributes = consoleInfo.wAttributes;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+    int n,price=0,month,meal,k,days;
+    days=count;
+   SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+    printf("\n        Number of rooms required?\n");
+       SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+    scanf("%d",&n);
+    SetConsoleTextAttribute(hConsole, BACKGROUND_GREEN);
+    printf("%d",n);
+
+    if(m1==1 || m1==2 || m1==5 || m1==6 || m1==10 || m1==12)
+    {
+        price=1200*n*days;
+    }
+    else
+    price=700*n*days;
+       SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+    printf("\n        Enter your meal plan:\n");
+    printf("        1.EP:European Plan -this includes only stay for the person.\n");
+    printf("        2.CP:Continental Plan-this includes the breakfast along with the hotel stay\n");
+    printf("        3.AP:American Plan-this includes the breakfast,lunch,dinner along with hotel stay\n");
+    printf("        4.MAP:Modified American plan-this  includes only one meal according to the choice of person along with hotel stay      \n");
+       SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
+	scanf("        %d",&meal);
+	SetConsoleTextAttribute(hConsole, BACKGROUND_GREEN);
+
+    switch(meal)
+    {
+    case 1:
+    {
+        k=price;
+        break;
+    }
+   
+   case 2:
+    {
+        k=300*days;
+        break;
+    }
+     case 3:
+    {
+        k=500*days;
+        break;
+    }
+     case 4:
+    {
+        k=100*days;
+        break;
+    }
+    }
+   int d=k+price;
+   total+=k+price;
+      SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY)	;
+   printf("            How would you rate your overall satisfaction with us out of 10?\n");
+   float j;
+      SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
+   scanf("        %d",&j);
+   SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE| BACKGROUND_GREEN | BACKGROUND_BLUE);
+      SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+      
+   printf("                             TOTAL PACKAGE:%d\n",total);
+   float gst,g;
+   g=0.18*total;
+   gst=total+g;
+  
+
+      SetConsoleTextAttribute(hConsole,FOREGROUND_RED | FOREGROUND_INTENSITY);
+   printf("                            WHEREVER YOU GO, GO WITH ALL YOUR HEART\n");
+}
+
+
+
+
